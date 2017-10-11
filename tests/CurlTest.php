@@ -23,9 +23,11 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
     public function testMakeOptions()
     {
+        $curl = new Curl();
+
         // # return defaults when empty
         $expected = Curl::getDefaultOptions();
-        $actual = (new Curl)->makeOptions();
+        $actual = $curl->makeOptions();
 
         $this->assertSame($expected, $actual, 'should return defaultOptions by default');
 
@@ -35,11 +37,11 @@ class CurlTest extends \PHPUnit_Framework_TestCase
             CURLOPT_URL => 'bar',
         );
         $expected = $options + Curl::getDefaultOptions();
-        $actual = (new Curl)->makeOptions($options);
+        $actual = $curl->makeOptions($options);
         $this->assertSame($expected, $actual, 'should merge defaultOptions with passed in options');
 
         // # convert cookies-array and post-fields-array to strings
-        $result = (new Curl)->makeOptions(array(
+        $result = $curl->makeOptions(array(
             CURLOPT_COOKIE => array('name' => 'john', 'age' => 30),
             CURLOPT_POSTFIELDS => array('name' => 'bob', 'age' => 25)
         ));
