@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Crazy Factory PHP Default Style">
+    <config name="installed_paths" value="vendor/crazyfactory/sniffs/src" />
+
+    <file>./src/</file>
+    <file>./tests/</file>
+
+    <rule ref="CrazyFactory" />
+
+    <!-- Temporarily disabled, see: https://github.com/crazyfactory/php-sniffs/issues/35 -->
+    <rule ref="CrazyFactory.Classes.UnusedUseStatement">
+        <exclude-pattern>*.php</exclude-pattern>
+    </rule>
+
+    <!-- PHP 5.3 -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+</ruleset>

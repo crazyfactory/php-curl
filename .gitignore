@@ -1,0 +1,29 @@
+# dev environment
+.idea/*
+!.idea/inspectionProfiles/*.xml
+!.idea/runConfigurations/*.xml
+!.idea/codeStyleSettings.xml
+
+# runtime folders
+/.store/
+/.temp/
+/.cache/
+/.config/
+
+# local configurations
+/.composer/
+*.local.php
+*.local.ini
+*.env
+
+# packages
+vendor/
+node_modules/
+coverage/
+
+#tests
+/tests/_artifacts/
+/tests/_data/
+/tests/_output/
+/tests/_support/_generated/
+
