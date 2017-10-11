@@ -33,7 +33,6 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         // # merge with defaults
         $options = array(
-            CURLOPT_ACCEPT_ENCODING => 'foo',
             CURLOPT_URL => 'bar',
         );
         $expected = $options + Curl::getDefaultOptions();
