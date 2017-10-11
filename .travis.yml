@@ -1,5 +1,9 @@
 language: php
 
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
 matrix:
   include:
   - php: 5.3
@@ -14,10 +18,12 @@ matrix:
   - php: nightly
 
 before_script:
+  - scripts/configure_composer.sh
   - travis_retry composer self-update
   - travis_retry composer install
 
 script:
+  - vendor/bin/phpcs
   - vendor/bin/phpunit
 
 deploy:
@@ -26,11 +32,7 @@ deploy:
     skip_cleanup: false
     on:
       tags: true
-      condition: "$TRAVIS_PHP_VERSION = 7.1"
-
-cache:
-  directories:
-    - $HOME/.composer/cache
+      condition: "$TRAVIS_PHP_VERSION = 5.3"
 
 notifications:
     slack: crazyfactory:Z3NJKlj5jdPOE1YrjPPyDPKb
