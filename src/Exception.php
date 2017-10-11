@@ -20,7 +20,7 @@ class Exception extends \Exception
      * @param array  $curlOptions
      * @param array  $curlInfo
      */
-    public function __construct($curlError = '', array $curlOptions = [], array $curlInfo = [])
+    public function __construct($curlError = '', array $curlOptions = array(), array $curlInfo = array())
     {
         $this->curlError   = (string) $curlError;
         $this->curlOptions = $curlOptions;
