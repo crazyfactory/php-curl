@@ -10,18 +10,15 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultOptions()
     {
         $backup = ini_get('open_basedir');
-        try {
-            ini_set('open_basedir', '');
-            $curl = new Curl();
-            $result = $curl->makeOptions();
 
-            $this->assertEquals(1, $result[CURLOPT_FOLLOWLOCATION], 'CURLOPT_FOLLOWLOCATION should be set when "open_basedir" is not set');
-        }
-        catch (\Exception $exception) {
-        }
-        finally {
-            ini_set('open_basedir', $backup);
-        }
+        ini_set('open_basedir', '');
+
+        $curl = new Curl();
+        $result = $curl->makeOptions();
+
+        $this->assertEquals(1, $result[CURLOPT_FOLLOWLOCATION], 'CURLOPT_FOLLOWLOCATION should be set when "open_basedir" is not set');
+
+        ini_set('open_basedir', $backup);
     }
 
     public function testMakeOptions()
