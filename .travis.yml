@@ -25,7 +25,6 @@ before_script:
   - travis_retry composer install
 
 script:
-  - vendor/bin/phpcs
   - vendor/bin/phpunit
 
 deploy:
