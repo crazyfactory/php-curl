@@ -6,7 +6,7 @@ cat > ${HOME}/.composer/config.json <<EOF
   "repositories": [
     {
       "type": "composer",
-      "url": "https://php.fury.io/${GEMFURY_KEY}/crazyfactory/"
+      "url": "https://php.fury.io/${GEMFURY_TOKEN}/crazyfactory/"
     }
   ]
 }
