@@ -4,8 +4,9 @@ namespace CrazyFactory\Curl\Tests\Unit\Helpers;
 
 use CrazyFactory\Curl\Curl;
 use CrazyFactory\Curl\Exception;
+use PHPUnit\Framework\TestCase;
 
-class CurlTest extends \PHPUnit_Framework_TestCase
+class CurlTest extends TestCase
 {
     public function testGetDefaultOptions()
     {
@@ -19,6 +20,31 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $result[CURLOPT_FOLLOWLOCATION], 'CURLOPT_FOLLOWLOCATION should be set when "open_basedir" is not set');
 
         ini_set('open_basedir', $backup);
+    }
+
+    public function testGet()
+    {
+        $curl = new Curl();
+        $result = json_decode($curl->get('http://httpbin.org/get'), true);
+
+        $this->assertSame('http://httpbin.org/get', $result['url']);
+        $this->assertSame('httpbin.org', $result['headers']['Host']);
+    }
+
+    public function testGetOnFields()
+    {
+        $curl = new Curl();
+        $result = json_decode($curl->get('http://httpbin.org/get', array('test' => 'value')), true);
+
+        $this->assertSame('http://httpbin.org/get?test=value', $result['url']);
+    }
+
+    public function testPostOnFields()
+    {
+        $curl = new Curl();
+        $result = json_decode($curl->post('http://httpbin.org/post', array('test' => 'value')), true);
+
+        $this->assertSame('value', $result['form']['test']);
     }
 
     public function testMakeOptions()
@@ -51,29 +77,21 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $result[CURLOPT_POSTFIELDS], 'should convert post-fields array to string');
     }
 
-    public function testCall()
+    public function callInvalidRequestProvider()
+    {
+        return array(
+            array(array(CURLOPT_URL => 'http://httpbin.org/status/404')),
+            array(array(CURLOPT_URL => 'http://httpbin.org/status/404')),
+        );
+    }
+
+    /**
+     * @dataProvider callInvalidRequestProvider
+     * @expectedException \Exception
+     */
+    public function testCallOnInvalidRequest($requestOption)
     {
         $curl = new Curl();
-
-        try {
-            $curl->call(array());
-            $this->fail('Exception should have been thrown');
-        }
-        catch (\Exception $e) {
-            $this->assertTrue($e instanceof Exception);
-        }
-
-        try {
-            $curl->call(array(
-                CURLOPT_URL => 'http://httpbin.org/status/404'
-            ));
-            $this->fail('Exception should have been thrown');
-        }
-        catch (Exception $e) {
-            $this->assertEquals(404, $e->getHttpCode());
-        }
-        catch (\Exception $e) {
-            $this->assertTrue($e instanceof Exception);
-        }
+        $curl->call($requestOption);
     }
 }
